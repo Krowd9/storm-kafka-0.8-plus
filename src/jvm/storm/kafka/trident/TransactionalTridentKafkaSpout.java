@@ -26,12 +26,17 @@ public class TransactionalTridentKafkaSpout implements IPartitionedTridentSpout<
 
     @Override
     public IPartitionedTridentSpout.Emitter getEmitter(Map conf, TopologyContext context) {
-		return new TridentKafkaEmitter(conf, context, _config, _topologyInstanceId).asTransactionalEmitter();
+        return new TridentKafkaEmitter(conf, context, _config, _topologyInstanceId).asTransactionalEmitter();
     }
 
     @Override
     public Fields getOutputFields() {
-		return _config.scheme.getOutputFields();
+        if (_config.keyValueScheme != null) {
+          return _config.keyValueScheme.getOutputFields();
+        }
+        else {
+          return _config.scheme.getOutputFields();
+        }
     }
         
     @Override

@@ -21,7 +21,7 @@ public class OpaqueTridentKafkaSpout implements IOpaquePartitionedTridentSpout<G
     
     @Override
     public IOpaquePartitionedTridentSpout.Emitter<GlobalPartitionInformation, Partition, Map> getEmitter(Map conf, TopologyContext context) {
-		return new TridentKafkaEmitter(conf, context, _config, _topologyInstanceId).asOpaqueEmitter();
+    return new TridentKafkaEmitter(conf, context, _config, _topologyInstanceId).asOpaqueEmitter();
     }
     
     @Override
@@ -31,8 +31,13 @@ public class OpaqueTridentKafkaSpout implements IOpaquePartitionedTridentSpout<G
 
     @Override
     public Fields getOutputFields() {
-        return _config.scheme.getOutputFields();
-    }    
+        if (_config.keyValueScheme != null) {
+          return _config.keyValueScheme.getOutputFields();
+        }
+        else {
+          return _config.scheme.getOutputFields();
+        }
+    }
     
     @Override
     public Map<String, Object> getComponentConfiguration() {

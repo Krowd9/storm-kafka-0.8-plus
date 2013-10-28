@@ -159,7 +159,12 @@ public class KafkaSpout extends BaseRichSpout {
 
     @Override
     public void declareOutputFields(OutputFieldsDeclarer declarer) {
-        declarer.declare(_spoutConfig.scheme.getOutputFields());
+        if (_spoutConfig.keyValueScheme != null) {
+          declarer.declare(_spoutConfig.keyValueScheme.getOutputFields());
+        }
+        else {
+          declarer.declare(_spoutConfig.scheme.getOutputFields());
+        }
     }
 
     private void commit() {
