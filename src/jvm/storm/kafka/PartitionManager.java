@@ -135,7 +135,7 @@ public class PartitionManager {
                     _spoutConfig.topic,
                     _partition.partition,
                     _emittedToOffset,
-                    _spoutConfig.fetchSizeBytes).build()).messageSet(_spoutConfig.topic,
+                    _spoutConfig.fetchSizeBytes).maxWait(100).minBytes(1).build()).messageSet(_spoutConfig.topic,
 				_partition.partition);
         long end = System.nanoTime();
         long millis = (end - start) / 1000000;
